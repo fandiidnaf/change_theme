@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:test/cubit/theme_cubit.dart';
+import 'package:test/theme/app_colors.dart';
+import 'package:test/theme/cubit/theme_cubit.dart';
 
 const String themeBox = "themeApp";
 
@@ -35,8 +36,10 @@ class MainApp extends StatelessWidget {
               state.changeSystemUi(context);
 
               return MaterialApp(
-                theme: ThemeData.light(),
-                darkTheme: ThemeData.dark(),
+                // theme: ThemeData.light(),
+                // darkTheme: ThemeData.dark(),
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
                 themeMode: state,
                 debugShowCheckedModeBanner: false,
                 home: HomeScreen(selectedTheme: state),
@@ -48,35 +51,6 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-/* NOT WORK
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final box = Hive.box(themeBox);
-    return Builder(
-      builder: (context) {
-        return ValueListenableBuilder(
-          valueListenable: box.listenable(),
-          builder: (context, value, child) {
-            final ThemeEnum theme = value.getAt(0).toString().toThemeMode;
-            theme.changeSystemUi(context);
-            return MaterialApp(
-              theme: ThemeData.light(),
-              darkTheme: ThemeData.dark(),
-              themeMode: theme.toFlutter,
-              debugShowCheckedModeBanner: false,
-              home: HomeScreen(selectedTheme: theme),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-*/
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.selectedTheme});
@@ -92,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.colors.scaffoldColor,
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
